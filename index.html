@@ -4169,17 +4169,17 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
   function zoomAt(f,cx,cy){const nw=vb.w*f;const fx=(cx-vb.x)/vb.w,fy=(cy-vb.y)/(vb.w*H/W);vb.x=cx-fx*nw;vb.y=cy-fy*nw*H/W;vb.w=nw;clamp();draw();}
   const toSvg=(ex,ey)=>{const r=svg.getBoundingClientRect();return [vb.x+(ex-r.left)/r.width*vb.w,vb.y+(ey-r.top)/r.height*vb.w*H/W];};
   svg.addEventListener("wheel",e=>{e.preventDefault();const [x,y]=toSvg(e.clientX,e.clientY);zoomAt(e.deltaY>0?1.2:1/1.2,x,y);},{passive:false});
-  const ptrs=new Map();let last=null,moved=0;
-  svg.addEventListener("pointerdown",e=>{svg.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=0;last=null;});
+  const ptrs=new Map();let last=null,moved=0,downPt=null;
+  svg.addEventListener("pointerdown",e=>{const t=e.target.closest&&e.target.closest("[data-i]");downPt=(t&&ptrs.size===0)?t:null;try{svg.setPointerCapture(e.pointerId);}catch(_){}ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=0;last=null;});
   svg.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);const r=svg.getBoundingClientRect();
     if(ptrs.size===1){const dx=(e.clientX-prev[0])/r.width*vb.w,dy=(e.clientY-prev[1])/r.height*vb.w*H/W;moved+=Math.abs(e.clientX-prev[0])+Math.abs(e.clientY-prev[1]);vb.x-=dx;vb.y-=dy;clamp();draw();}
     else if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(last){const [cx,cy]=toSvg((a[0]+b[0])/2,(a[1]+b[1])/2);zoomAt(last/d,cx,cy);}last=d;moved=99;}});
-  const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)last=null;};svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
+  const up=e=>{if(e.type==="pointerup"&&downPt&&moved<=6&&ptrs.size===1){show(P[+downPt.dataset.i]);}downPt=null;ptrs.delete(e.pointerId);if(ptrs.size<2)last=null;};svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
   const info=document.getElementById("winfo");
   function show(p){P.forEach(q=>q.el.classList.toggle("on",q===p));const rs=racesIn(p.n+" "+p.d);
     const kind={p:"Site",u:"Underwater base",r:"Region (exact place not given)"}[p.k];const grp={race:"Race base",water:"Underwater",shared:"Shared underground facility",ancient:"Ancient site, Ark or stargate",human:"Government or military underground facility"}[p.g];
-    info.innerHTML=`<h3><span class="dot ${p.st}"></span>${esc(p.n)}</h3><div class="sub">${grp} · ${kind}</div><p>${esc(p.d)}</p>${rs.length?`<div class="tags" style="margin-top:8px">${rs.map(r=>`<button class="tag" data-sys="${r[1]}" data-ri="${r[2]}">${esc(r[0])} ★</button>`).join("")}</div><p class="note" style="margin-top:6px">★ jumps to that race’s home star.</p>`:""}`;}
-  gp.addEventListener("click",e=>{const t=e.target.closest("[data-i]");if(!t||moved>6)return;show(P[+t.dataset.i]);});
+    info.innerHTML=`<h3><span class="dot ${p.st}"></span>${esc(p.n)}</h3><div class="sub">${grp} · ${kind}</div><p>${esc(p.d)}</p>${rs.length?`<div class="tags" style="margin-top:8px">${rs.map(r=>`<button class="tag" data-sys="${r[1]}" data-ri="${r[2]}">${esc(r[0])} ★</button>`).join("")}</div><p class="note" style="margin-top:6px">★ jumps to that race’s home star.</p>`:""}`;const r=info.getBoundingClientRect();if(r.top>innerHeight-80||r.bottom<0)info.scrollIntoView({behavior:"smooth",block:"nearest"});}
+  
   gp.addEventListener("keydown",e=>{if(e.key!=="Enter")return;const t=e.target.closest("[data-i]");if(t)show(P[+t.dataset.i]);});
   info.addEventListener("click",e=>{const b=e.target.closest("[data-sys]");if(!b)return;const ri=+b.dataset.ri;select(b.dataset.sys,{fly:true,race:ri>=0?ri:null,scroll:true});});
   const PRE=WORLD.presets;
