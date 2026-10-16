@@ -1,3 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
 <title>Alien Civilisations Star Map</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -322,10 +329,65 @@ nav.jump a.hl{color:var(--accent);font-weight:600}
 .beyondc > *{grid-column:1}
 .beyondc .bthumb{grid-column:2;grid-row:1/span 3;align-self:start;height:120px;background:radial-gradient(90% 80% at 50% 30%,var(--surface),var(--bg));border-radius:8px;border:1px solid var(--line)}
 .beyondc .bthumb svg{width:100%;height:118px;display:block}
+
+/* ===== big section navigation ===== */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.block,#screen,#top{scroll-margin-top:96px}
+.ct-h,#e-lists,#e-people,#e-cabal,#wmap,#underwater{scroll-margin-top:104px}
+/* start-here cards */
+.starthere{margin:6px 0 22px}
+.starthere h2{display:flex;align-items:center;gap:12px;font-size:clamp(22px,3vw,30px);margin:0 0 14px}
+.sh-pulse{width:14px;height:14px;border-radius:50%;background:#ffcc33;box-shadow:0 0 0 0 rgba(255,204,51,.7);animation:shp 1.8s infinite;flex:none}
+@keyframes shp{0%{box-shadow:0 0 0 0 rgba(255,204,51,.7)}70%{box-shadow:0 0 0 14px rgba(255,204,51,0)}100%{box-shadow:0 0 0 0 rgba(255,204,51,0)}}
+.sh-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px}
+.sh-card{position:relative;display:flex;align-items:center;gap:16px;min-height:112px;padding:18px 20px;border-radius:18px;text-decoration:none;color:#fff;
+  background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 10px 26px -10px var(--c1),inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .18s ease,box-shadow .18s ease;overflow:hidden}
+.sh-card::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.22) 45%,transparent 60%);transform:translateX(-120%);transition:transform .6s ease}
+.sh-card:hover,.sh-card:focus-visible{transform:translateY(-4px) scale(1.02);box-shadow:0 18px 34px -10px var(--c1),inset 0 1px 0 rgba(255,255,255,.3)}
+.sh-card:hover::after,.sh-card:focus-visible::after{transform:translateX(120%)}
+.sh-card:focus-visible{outline:4px solid #ffcc33;outline-offset:3px}
+.sh-ic{flex:none;display:grid;place-items:center;width:58px;height:58px;border-radius:16px;background:rgba(255,255,255,.2);font-size:30px;line-height:1;border:2px solid rgba(255,255,255,.35)}
+.sh-tx{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+.sh-tx b{font-size:21px;font-weight:800;letter-spacing:.01em;line-height:1.15;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.sh-tx small{font-size:14px;line-height:1.35;color:rgba(255,255,255,.92)}
+.sh-go{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#fff;color:var(--c1);font-size:22px;font-weight:900;animation:shg 2.4s ease-in-out infinite}
+@keyframes shg{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+/* sticky bar */
+nav.mainnav{position:fixed;top:0;left:0;right:0;z-index:60;margin:0;padding:10px 16px;transform:translateY(-110%);opacity:0;pointer-events:none;transition:transform .25s ease,opacity .25s ease;
+  background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:2px solid var(--line);box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.mn-row{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
+.mn-row a{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 12px;border-radius:14px;text-decoration:none;
+  font-size:15.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));border:2px solid transparent;
+  box-shadow:0 6px 14px -6px var(--c1);transition:transform .15s,box-shadow .15s,filter .15s;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.mn-row a:hover{transform:translateY(-2px);box-shadow:0 10px 20px -6px var(--c1);filter:brightness(1.08)}
+.mn-row a:focus-visible{outline:4px solid #ffcc33;outline-offset:2px}
+.mn-row a.on{border-color:#fff;box-shadow:0 0 0 3px #ffcc33,0 10px 22px -6px var(--c1);transform:translateY(-1px)}
+.mn-i{font-size:18px;line-height:1}
+/* in-section shortcuts */
+.subnav{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:6px 0 22px;padding:16px;border-radius:16px;background:var(--surface);border:3px solid var(--accent);box-shadow:0 10px 24px -14px var(--accent)}
+.sn-t{flex-basis:100%;display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;color:var(--ink)}
+.sn-t::before{content:"";width:12px;height:12px;border-radius:50%;background:#ffcc33;animation:shp 1.8s infinite}
+.subnav a{display:inline-flex;align-items:center;gap:6px;min-height:46px;padding:0 16px;border-radius:12px;font-size:15.5px;font-weight:700;text-decoration:none;color:var(--accent-ink);background:var(--accent);box-shadow:0 4px 10px -4px var(--accent);transition:transform .15s,filter .15s}
+.subnav a::after{content:"→";font-weight:900}
+.subnav a:hover,.subnav a:focus-visible{transform:translateY(-2px);filter:brightness(1.1)}
+.subnav a:focus-visible{outline:3px solid #ffcc33;outline-offset:2px}
+.totop{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:61;display:inline-flex;align-items:center;gap:6px;min-height:56px;padding:0 22px;border-radius:999px;
+  background:linear-gradient(135deg,#ffb703,#ff8f00);color:#2a1600;font-weight:900;font-size:17px;text-decoration:none;box-shadow:0 10px 26px rgba(0,0,0,.35);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s}
+.totop.show{opacity:1;pointer-events:auto;transform:none}
+.totop:focus-visible{outline:4px solid var(--ink);outline-offset:2px}
+@media (max-width:900px){.mn-row{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;padding:2px}.mn-row::-webkit-scrollbar{display:none}.mn-row a{scroll-snap-align:start}}
+@media (max-width:700px){nav.mainnav{padding:8px 12px}.mn-row a{font-size:15.5px;min-height:50px;padding:0 15px}.block,#screen,#top{scroll-margin-top:84px}
+  .sh-card{min-height:96px;padding:14px 16px}.sh-ic{width:50px;height:50px;font-size:26px}.sh-tx b{font-size:19px}}
+@media (prefers-reduced-motion:reduce){.sh-pulse,.sn-t::before,.sh-go{animation:none}.sh-card,.mn-row a{transition:none}}
+nav.mainnav.show{transform:none;opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion:reduce){nav.mainnav{transition:none}}
+@media print{nav.mainnav,.subnav,.totop,.starthere{display:none}}
 </style>
 
 <div class="wrap">
-<header class="top">
+<header class="top" id="top">
   <div>
     <div class="eyebrow">Star atlas of known civilisations</div>
     <h1>Alien Civilisations Star Map</h1>
@@ -334,7 +396,8 @@ nav.jump a.hl{color:var(--accent);font-weight:600}
   <div class="stats" id="stats"></div>
 </header>
 
-<nav class="jump" aria-label="Sections"><a href="#screen">Star map</a><a href="#sol">Solar system</a><a class="hl" href="#gallery">Meet the races</a><a class="hl" href="#contact">Earth &amp; contact</a><a href="#earth">Bases on Terra</a><a href="#orgs">Alliances</a><a href="#beyond">Off the map</a><a href="#index">Index</a></nav>
+<section class="starthere" aria-labelledby="sh-t"><h2 id="sh-t"><span class="sh-pulse" aria-hidden="true"></span>Start here: tap a section</h2><div class="sh-grid"><a class="sh-card" href="#screen" style="--c1:#5b4bd6;--c2:#7f6ff0"><span class="sh-ic" aria-hidden="true">✦</span><span class="sh-tx"><b>Star map</b><small>Every race placed at its star. Click a star to meet who lives there.</small></span><span class="sh-go" aria-hidden="true">→</span></a><a class="sh-card" href="#sol" style="--c1:#c46a00;--c2:#e8910f"><span class="sh-ic" aria-hidden="true">☉</span><span class="sh-tx"><b>Solar system</b><small>Who is on the Moon, Mars, Venus, Jupiter and beyond.</small></span><span class="sh-go" aria-hidden="true">→</span></a><a class="sh-card" href="#gallery" style="--c1:#00866b;--c2:#13a886"><span class="sh-ic" aria-hidden="true">◉</span><span class="sh-tx"><b>Meet the races</b><small>Pictures and profiles of hundreds of peoples.</small></span><span class="sh-go" aria-hidden="true">→</span></a><a class="sh-card" href="#contact" style="--c1:#0a6fc2;--c2:#2a8ee0"><span class="sh-ic" aria-hidden="true">✉</span><span class="sh-tx"><b>Earth &amp; contact</b><small>How they talk to us, timelines, stargates, Arks and history.</small></span><span class="sh-go" aria-hidden="true">→</span></a><a class="sh-card" href="#earth" style="--c1:#c2462a;--c2:#e0623f"><span class="sh-ic" aria-hidden="true">⌖</span><span class="sh-tx"><b>Bases on Earth</b><small>World map of bases, Arks, sleeping giants and ancient sites.</small></span><span class="sh-go" aria-hidden="true">→</span></a><a class="sh-card" href="#orgs" style="--c1:#b3243a;--c2:#d43c52"><span class="sh-ic" aria-hidden="true">⚑</span><span class="sh-tx"><b>Alliances</b><small>Federations, councils and empires, and who belongs to which.</small></span><span class="sh-go" aria-hidden="true">→</span></a><a class="sh-card" href="#beyond" style="--c1:#6a4fb3;--c2:#8a6fd6"><span class="sh-ic" aria-hidden="true">∞</span><span class="sh-tx"><b>Off the map</b><small>Places in other dimensions and other galaxies.</small></span><span class="sh-go" aria-hidden="true">→</span></a><a class="sh-card" href="#index" style="--c1:#3d4b5c;--c2:#56677a"><span class="sh-ic" aria-hidden="true">☰</span><span class="sh-tx"><b>Index A–Z</b><small>Every race in one sortable list.</small></span><span class="sh-go" aria-hidden="true">→</span></a></div></section>
+<nav class="mainnav" id="mainnav" aria-label="Sections"><div class="mn-row"><a href="#screen" data-sec="screen" style="--c1:#5b4bd6;--c2:#7f6ff0"><span class="mn-i" aria-hidden="true">✦</span>Star map</a><a href="#sol" data-sec="sol" style="--c1:#c46a00;--c2:#e8910f"><span class="mn-i" aria-hidden="true">☉</span>Solar system</a><a href="#gallery" data-sec="gallery" style="--c1:#00866b;--c2:#13a886"><span class="mn-i" aria-hidden="true">◉</span>Meet the races</a><a href="#contact" data-sec="contact" style="--c1:#0a6fc2;--c2:#2a8ee0"><span class="mn-i" aria-hidden="true">✉</span>Earth &amp; contact</a><a href="#earth" data-sec="earth" style="--c1:#c2462a;--c2:#e0623f"><span class="mn-i" aria-hidden="true">⌖</span>Bases on Earth</a><a href="#orgs" data-sec="orgs" style="--c1:#b3243a;--c2:#d43c52"><span class="mn-i" aria-hidden="true">⚑</span>Alliances</a><a href="#beyond" data-sec="beyond" style="--c1:#6a4fb3;--c2:#8a6fd6"><span class="mn-i" aria-hidden="true">∞</span>Off the map</a><a href="#index" data-sec="index" style="--c1:#3d4b5c;--c2:#56677a"><span class="mn-i" aria-hidden="true">☰</span>Index A–Z</a></div></nav>
 <div class="controls">
   <div class="search">
     <svg viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
@@ -380,37 +443,38 @@ nav.jump a.hl{color:var(--accent);font-weight:600}
 
 <section class="block" id="contact">
   <header><h2>Earth and contact: who talks to us, and how</h2><p>How alien races communicate with people on Earth, the rules they follow, timelines, a phrasebook, ships and stargates, and a note on every race’s relationship with Earth.</p></header>
+  <nav class="subnav" aria-label="In this section"><span class="sn-t">Jump to a part of this section</span><a href="#ct-how">How contact works</a><a href="#ct-crystal">Crystal practices</a><a href="#ct-rules">Rules of contact</a><a href="#ct-taami">Taami phrasebook</a><a href="#ct-travel">Travel times</a><a href="#ct-timeline">Contact timeline</a><a href="#ct-greada">Greada Treaty</a><a href="#ct-hybrids">Hybrids</a><a href="#ct-history">Earth’s hidden history</a><a href="#ct-gates">Stargates &amp; Arks</a><a href="#ct-genomes">22 genomes</a><a href="#ct-tech">Ships &amp; technology</a><a href="#ctAll">Every race &amp; Earth</a></nav>
 
-  <h3 class="ct-h">How contact works</h3>
+  <h3 class="ct-h" id="ct-how">How contact works</h3>
   <div class="guide" id="ctGuide"></div>
 
-  <h3 class="ct-h">Crystal practices: step by step</h3>
+  <h3 class="ct-h" id="ct-crystal">Crystal practices: step by step</h3>
   <p class="note" style="margin:0 0 10px">How the accounts say to choose, clear and use a quartz crystal for contact, energy and intention work. Everything here is a claim from the accounts, not tested science. Stop any session if you feel unwell, and never work with mains electricity.</p>
   <div class="howto" id="ctHowto"></div>
 
   <div class="twocol" style="margin-top:8px">
-    <div><h3 class="ct-h">The rules of contact</h3><div class="rules" id="ctRules"></div></div>
-    <div><h3 class="ct-h">Speak a little Taami</h3>
+    <div><h3 class="ct-h" id="ct-rules">The rules of contact</h3><div class="rules" id="ctRules"></div></div>
+    <div><h3 class="ct-h" id="ct-taami">Speak a little Taami</h3>
       <p class="note" style="margin:0 0 10px">Taami is the old Lyran (Man) language and the official diplomatic language of the Galactic Federation of Worlds. Endings: <b>-a</b> feminine, <b>-u</b> masculine, <b>-i</b> plural. After a long Pleiadean presence on Earth, traces of it survive in Earth languages. Many races speak their own languages: Grays sound like crackling insects, some speak in frequencies like dolphins and whales, and the O communicate in a way beyond telepathy.</p>
       <div class="taami" id="ctTaami"></div>
-      <h3 class="ct-h">Travel times to Earth</h3><div class="rules" id="ctTravel"></div>
+      <h3 class="ct-h" id="ct-travel">Travel times to Earth</h3><div class="rules" id="ctTravel"></div>
     </div>
   </div>
 
   <div class="twocol" style="margin-top:8px">
-    <div><h3 class="ct-h">Timeline of contact with Earth</h3><ol class="tl" id="ctTimeline"></ol></div>
-    <div><h3 class="ct-h">The Greada Treaty (1954, with the Do-Hu)</h3><div class="rules inl" id="ctGreada"></div>
+    <div><h3 class="ct-h" id="ct-timeline">Timeline of contact with Earth</h3><ol class="tl" id="ctTimeline"></ol></div>
+    <div><h3 class="ct-h" id="ct-greada">The Greada Treaty (1954, with the Do-Hu)</h3><div class="rules inl" id="ctGreada"></div>
       <p class="note">The deal was meant to allow a few abductions in exchange for technology. It turned out the Do-Hu were working for the Draconian Reptilians, and abductions grew from a few hundred to millions.</p>
-      <h3 class="ct-h">Hybrids: telling who is who</h3><div class="rules" id="ctHybrids"></div></div>
+      <h3 class="ct-h" id="ct-hybrids">Hybrids: telling who is who</h3><div class="rules" id="ctHybrids"></div></div>
   </div>
 
   <div class="twocol" style="margin-top:8px">
-    <div><h3 class="ct-h">Earth’s hidden history</h3><p class="note" style="margin:0 0 10px">The long story of Earth as the Seeders and Prince Ea tell it, from the first reptilian colonists to the end of Reptilian rule.</p><ol class="tl" id="ctHistory"></ol></div>
-    <div><h3 class="ct-h">Stargates, portals and Arks</h3><div class="rules" id="ctGates"></div>
-      <h3 class="ct-h">The 22 genomes in human DNA</h3><p class="note" style="margin:0 0 10px">Humans are said to carry traces of 22 peoples: 1 native primate, 11 from other galaxies (added by the Seeders) and 10 from our own galaxy. Most people carry only some of them; those with all 22 are called “activators”.</p><div class="taami" id="ctGenomes"></div></div>
+    <div><h3 class="ct-h" id="ct-history">Earth’s hidden history</h3><p class="note" style="margin:0 0 10px">The long story of Earth as the Seeders and Prince Ea tell it, from the first reptilian colonists to the end of Reptilian rule.</p><ol class="tl" id="ctHistory"></ol></div>
+    <div><h3 class="ct-h" id="ct-gates">Stargates, portals and Arks</h3><div class="rules" id="ctGates"></div>
+      <h3 class="ct-h" id="ct-genomes">The 22 genomes in human DNA</h3><p class="note" style="margin:0 0 10px">Humans are said to carry traces of 22 peoples: 1 native primate, 11 from other galaxies (added by the Seeders) and 10 from our own galaxy. Most people carry only some of them; those with all 22 are called “activators”.</p><div class="taami" id="ctGenomes"></div></div>
   </div>
 
-  <h3 class="ct-h">Ships and technology</h3>
+  <h3 class="ct-h" id="ct-tech">Ships and technology</h3>
   <div class="guide" id="ctTech"></div>
 
   <h3 class="ct-h" id="ctAll">Every race and its link to Earth</h3>
@@ -422,6 +486,7 @@ nav.jump a.hl{color:var(--accent);font-weight:600}
 
 <section class="block" id="earth">
   <header><h2>On Terra: bases by race</h2><p>Every base on a world map: race bases, underwater bases and the shared underground facilities. Click a marker for details; drag and scroll or pinch to zoom.</p></header>
+  <nav class="subnav" aria-label="In this section"><span class="sn-t">Jump to a part of this section</span><a href="#wmap">World map</a><a href="#e-lists">Bases as lists</a><a href="#underwater">Underwater bases</a><a href="#e-people">Named contacts</a><a href="#e-cabal">Shared facilities</a></nav>
   <div class="wpre" id="wpre"></div>
   <div class="chips" id="wlayers" style="margin-bottom:10px"></div>
   <div class="wwrap">
@@ -429,13 +494,13 @@ nav.jump a.hl{color:var(--accent);font-weight:600}
       <div class="wleg"><span><i class="c"></i>Site</span><span><i class="d"></i>Underwater base</span><span><i class="r"></i>Region (exact place not given)</span><span><i class="c" style="background:transparent;border:2px solid #ffe08a"></i>Gold outline: ancient site, Ark or stargate</span><span><i class="c" style="background:transparent;border:2px dashed #9fd3ff"></i>Blue dashed: documented government or military bunker</span><span>Arcturian bases sit inside mountains in nearly every country, so they are not marked one by one.</span></div></div>
     <div class="card" id="winfo" aria-live="polite"></div>
   </div>
-  <h3 class="ct-h">All bases as lists</h3>
+  <h3 class="ct-h" id="e-lists">All bases as lists</h3>
   <div class="cols">
     <div><h3 style="margin-bottom:8px">Land and underground</h3><div class="rowlist" id="raceBases"></div></div>
     <div><h3 style="margin-bottom:8px">Underwater bases</h3><div class="rowlist" id="underwater"></div>
-      <h3 style="margin:18px 0 8px">Named contacts</h3><div class="people" id="people"></div></div>
+      <h3 style="margin:18px 0 8px" id="e-people">Named contacts</h3><div class="people" id="people"></div></div>
   </div>
-  <details class="full"><summary>All shared underground facilities (Ciakahrr–Orion–Altair alliances, with a Telosi faction and Terran governments)</summary><dl id="cabal"></dl></details>
+  <details class="full" id="e-cabal"><summary>All shared underground facilities (Ciakahrr–Orion–Altair alliances, with a Telosi faction and Terran governments)</summary><dl id="cabal"></dl></details>
 </section>
 
 <section class="block" id="orgs">
@@ -454,6 +519,7 @@ nav.jump a.hl{color:var(--accent);font-weight:600}
   <div class="tablewrap"><table><thead><tr><th data-k="n" aria-sort="ascending">Race</th><th data-k="sys">Star / system</th><th data-k="con">Constellation</th><th data-k="pl">Planet</th><th data-k="st">Stance</th><th data-k="t">Kind</th></tr></thead><tbody id="ibody"></tbody></table></div>
 </section>
 
+<a class="totop" id="totop" href="#top" aria-label="Back to the top">↑ Top</a>
 <footer class="src">
   <p><strong>Positions.</strong> Each marker sits at the real sky coordinates (right ascension and declination) of the named star. Where only a constellation is given, or a star catalogue number whose exact coordinates are not given, the marker is dashed and placed approximately: <span id="approxList"></span>. The allegiance colours summarise how each race is described.</p>
 </footer>
@@ -4242,9 +4308,9 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
     else if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(last){const [cx,cy]=toSvg((a[0]+b[0])/2,(a[1]+b[1])/2);zoomAt(last/d,cx,cy);}last=d;moved=99;}});
   const up=e=>{if(e.type==="pointerup"&&downPt&&moved<=6&&ptrs.size===1){show(P[+downPt.dataset.i]);}downPt=null;ptrs.delete(e.pointerId);if(ptrs.size<2)last=null;};svg.addEventListener("pointerup",up);svg.addEventListener("pointercancel",up);
   const info=document.getElementById("winfo");
-  function show(p){P.forEach(q=>q.el.classList.toggle("on",q===p));const rs=racesIn(p.n+" "+p.d);
+  function show(p,noScroll){P.forEach(q=>q.el.classList.toggle("on",q===p));const rs=racesIn(p.n+" "+p.d);
     const kind={p:"Site",u:"Underwater base",r:"Region (exact place not given)"}[p.k];const grp={race:"Race base",water:"Underwater",shared:"Shared underground facility",ancient:"Ancient site, Ark or stargate",human:"Government or military underground facility"}[p.g];
-    info.innerHTML=`<h3><span class="dot ${p.st}"></span>${esc(p.n)}</h3><div class="sub">${grp} · ${kind}</div><p>${esc(p.d)}</p>${rs.length?`<div class="tags" style="margin-top:8px">${rs.map(r=>`<button class="tag" data-sys="${r[1]}" data-ri="${r[2]}">${esc(r[0])} ★</button>`).join("")}</div><p class="note" style="margin-top:6px">★ jumps to that race’s home star.</p>`:""}`;const r=info.getBoundingClientRect();if(r.top>innerHeight-80||r.bottom<0)info.scrollIntoView({behavior:"smooth",block:"nearest"});}
+    info.innerHTML=`<h3><span class="dot ${p.st}"></span>${esc(p.n)}</h3><div class="sub">${grp} · ${kind}</div><p>${esc(p.d)}</p>${rs.length?`<div class="tags" style="margin-top:8px">${rs.map(r=>`<button class="tag" data-sys="${r[1]}" data-ri="${r[2]}">${esc(r[0])} ★</button>`).join("")}</div><p class="note" style="margin-top:6px">★ jumps to that race’s home star.</p>`:""}`;const r=info.getBoundingClientRect();if(r.top>innerHeight-80||r.bottom<0)if(!noScroll)info.scrollIntoView({behavior:"smooth",block:"nearest"});}
   
   gp.addEventListener("keydown",e=>{if(e.key!=="Enter")return;const t=e.target.closest("[data-i]");if(t)show(P[+t.dataset.i]);});
   info.addEventListener("click",e=>{const b=e.target.closest("[data-sys]");if(!b)return;const ri=+b.dataset.ri;select(b.dataset.sys,{fly:true,race:ri>=0?ri:null,scroll:true});});
@@ -4255,7 +4321,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
   const lc=document.getElementById("wlayers");
   [["race","Race bases"],["water","Underwater"],["shared","Shared Cabal facilities"],["ancient","Ancient sites, Arks & stargates"],["human","Government & military bunkers"]].forEach(([k,l])=>{const n=P.filter(p=>p.g===k).length;const b=document.createElement("button");b.className="chip";b.setAttribute("aria-pressed","true");b.innerHTML=`${l} <span class="n">${n}</span>`;b.onclick=()=>{layers[k]=!layers[k];b.setAttribute("aria-pressed",layers[k]);draw();};lc.appendChild(b);});
   ["b","n","h"].forEach(k=>{const b=document.createElement("button");b.className="chip";b.setAttribute("aria-pressed","true");b.innerHTML=`<span class="dot ${k}"></span>${STANCE[k]}`;b.onclick=()=>{stF[k]=!stF[k];b.setAttribute("aria-pressed",stF[k]);draw();};lc.appendChild(b);});
-  draw();show(P[0]);
+  draw();show(P[0],true);
 })();
 
 // ---------- Star map: extra views (globe, distance) and visual styles
@@ -4447,6 +4513,24 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
   render();
 })();
 
+// ---------- big section navigation: highlight current section, back-to-top
+(function(){
+  const nav=document.getElementById("mainnav");if(!nav)return;
+  const links=[...nav.querySelectorAll("a[data-sec]")];
+  const secs=links.map(a=>document.getElementById(a.dataset.sec)).filter(Boolean);
+  function setOn(id){links.forEach(a=>{const on=a.dataset.sec===id;a.classList.toggle("on",on);if(on){a.setAttribute("aria-current","true");const r=a.parentElement;if(a.offsetLeft<r.scrollLeft||a.offsetLeft+a.offsetWidth>r.scrollLeft+r.clientWidth)r.scrollTo({left:a.offsetLeft-12,behavior:"smooth"});}else a.removeAttribute("aria-current");});}
+  function check(){const y=nav.getBoundingClientRect().bottom+40;let cur=null;secs.forEach(s=>{if(s.getBoundingClientRect().top<=y)cur=s.id;});setOn(cur);
+    const cards=document.querySelector(".starthere");if(cards){const show=cards.getBoundingClientRect().bottom<0;nav.classList.toggle("show",show);nav.setAttribute("aria-hidden",show?"false":"true");nav.querySelectorAll("a").forEach(x=>x.tabIndex=show?0:-1);}
+    const t=document.getElementById("totop");if(t)t.classList.toggle("show",window.scrollY>700);}
+  let raf=0;window.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;check();});},{passive:true});
+  window.addEventListener("resize",check);check();
+  // open a closed <details> when its link is used
+  document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const el=document.getElementById(a.getAttribute("href").slice(1));if(el&&el.tagName==="DETAILS")el.open=true;});
+})();
+
 })();
 
 </script>
+
+</body>
+</html>
