@@ -336,6 +336,19 @@ nav.jump a.hl{color:var(--accent);font-weight:600}
 .stat i.dot{display:inline-block;flex:none}
 .stat-top{font-size:14px;margin:0;color:var(--muted)}
 .mc{display:inline-block;font-family:var(--f-mono);font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--accent);color:var(--accent-ink);vertical-align:middle;margin-left:4px}
+button.stat,a.stat{cursor:pointer;text-align:left;font:inherit;color:inherit;text-decoration:none;transition:transform .12s,box-shadow .12s,border-color .12s}
+button.stat:hover,a.stat:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 6px 16px -8px var(--accent)}
+button.stat:focus-visible,a.stat:focus-visible{outline:3px solid #ffcc33;outline-offset:2px}
+button.stat.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent)}
+.stat em{font-style:normal;font-size:12px;font-weight:700;color:var(--accent);margin-top:4px}
+.stat.big em{color:var(--accent-ink)}
+.stat-help{margin:0;font-size:14px;font-weight:600;color:var(--ink)}
+.wstatus{margin:0 0 8px;padding:10px 14px;border-radius:10px;background:var(--surface);border:2px solid var(--accent);font-size:14.5px;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.wreset{border:0;border-radius:999px;padding:6px 14px;background:var(--accent);color:var(--accent-ink);font-weight:700;cursor:pointer;font:inherit;font-weight:700}
+.whint{font-size:13px;font-weight:700;color:var(--muted);align-self:center}
+#wlayers .chip[aria-pressed="false"]{opacity:.45}
+#wlayers .chip[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.allchip{font-weight:700}
 /* ===== big section navigation ===== */
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -4721,9 +4734,9 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
   const lab=document.createElementNS(NSW,"g");lab.setAttribute("class","wlab");gp.appendChild(lab);
   P.forEach(p=>{const t=document.createElementNS(NSW,"text");t.textContent=p.n.replace(/,.*$/,"").replace(/ \(.*\)$/,"");p.lab=t;lab.appendChild(t);});
   const W=WORLD.W,H=WORLD.H;let vb={x:0,y:0,w:W};
-  const layers={race:true,water:true,shared:true,ancient:true,human:true},stF={b:true,n:true,h:true};
+  const layers={race:true,water:true,shared:true,ancient:true,human:true},stF={b:true,n:true,h:true},kF={p:true,u:true,r:true};
   function draw(){const h=vb.w*H/W;svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${h}`);const s=vb.w/W;const k=1/s;
-    P.forEach(p=>{const on=layers[p.g]&&stF[p.st];p.el.style.display=on?"":"none";
+    P.forEach(p=>{const on=layers[p.g]&&stF[p.st]&&kF[p.k];p.el.style.display=on?"":"none";
       if(p.k==="r"){p.el.setAttribute("cx",p.x);p.el.setAttribute("cy",p.y);p.el.setAttribute("r",Math.max(9*s,14*s));}
       else if(p.k==="u"){const a=4.6*s;p.el.setAttribute("x",p.x-a/2);p.el.setAttribute("y",p.y-a/2);p.el.setAttribute("width",a);p.el.setAttribute("height",a);p.el.setAttribute("transform",`rotate(45 ${p.x} ${p.y})`);}
       else{p.el.setAttribute("cx",p.x);p.el.setAttribute("cy",p.y);p.el.setAttribute("r",3.2*s);}
@@ -4753,8 +4766,34 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
   document.getElementById("wzin").onclick=()=>zoomAt(1/1.5,vb.x+vb.w/2,vb.y+vb.w*H/W/2);
   document.getElementById("wzout").onclick=()=>zoomAt(1.5,vb.x+vb.w/2,vb.y+vb.w*H/W/2);
   const lc=document.getElementById("wlayers");
-  [["race","Race bases"],["water","Underwater"],["shared","Shared Cabal facilities"],["ancient","Ancient sites, Arks & stargates"],["human","Government & military bunkers"]].forEach(([k,l])=>{const n=P.filter(p=>p.g===k).length;const b=document.createElement("button");b.className="chip";b.setAttribute("aria-pressed","true");b.innerHTML=`${l} <span class="n">${n}</span>`;b.onclick=()=>{layers[k]=!layers[k];b.setAttribute("aria-pressed",layers[k]);draw();};lc.appendChild(b);});
-  ["b","n","h"].forEach(k=>{const b=document.createElement("button");b.className="chip";b.setAttribute("aria-pressed","true");b.innerHTML=`<span class="dot ${k}"></span>${STANCE[k]}`;b.onclick=()=>{stF[k]=!stF[k];b.setAttribute("aria-pressed",stF[k]);draw();};lc.appendChild(b);});
+  const GL={race:"Race bases",water:"Underwater bases",shared:"Shared facilities",ancient:"Ancient sites, Arks & stargates",human:"Government & military"};
+  const KL={u:"Under the sea (all kinds)",r:"Regions (no exact spot)",p:"Exact sites"};
+  const chipG={},chipS={};
+  const status=document.createElement("div");status.className="wstatus";status.setAttribute("aria-live","polite");
+  const allBtn=document.createElement("button");allBtn.className="chip allchip";allBtn.innerHTML=`Show everything <span class="n">${P.length}</span>`;
+  function setAll(){Object.keys(layers).forEach(k=>layers[k]=true);Object.keys(stF).forEach(k=>stF[k]=true);Object.keys(kF).forEach(k=>kF[k]=true);sync();}
+  function sync(){Object.entries(chipG).forEach(([k,b])=>b.setAttribute("aria-pressed",layers[k]));Object.entries(chipS).forEach(([k,b])=>b.setAttribute("aria-pressed",stF[k]));
+    const vis=P.filter(p=>layers[p.g]&&stF[p.st]&&kF[p.k]).length;const allOn=vis===P.length&&Object.values(kF).every(Boolean);
+    allBtn.setAttribute("aria-pressed",allOn);
+    const parts=[];Object.keys(layers).forEach(k=>{});
+    const offG=Object.keys(layers).filter(k=>!layers[k]).length,offS=Object.keys(stF).filter(k=>!stF[k]).length,offK=Object.keys(kF).filter(k=>!kF[k]).length;
+    if(offG)parts.push(Object.keys(layers).filter(k=>layers[k]).map(k=>GL[k]).join(" + ")||"no type");
+    if(offS)parts.push(Object.keys(stF).filter(k=>stF[k]).map(k=>STANCE[k]).join(" + ")||"no stance");
+    if(offK)parts.push(Object.keys(kF).filter(k=>kF[k]).map(k=>KL[k]).join(" + "));
+    status.innerHTML=allOn?`Showing all <b>${P.length}</b> places. Tap a type below to show only that type.`:`Showing <b>${vis}</b> of ${P.length}: ${parts.map(esc).join(" · ")} <button class="wreset">Show everything</button>`;
+    const r=status.querySelector(".wreset");if(r)r.onclick=setAll;draw();
+    if(!allOn){const f=P.find(p=>layers[p.g]&&stF[p.st]&&kF[p.k]);if(f)show(f,true);}}
+  // tap = show only this one; tap the only one again = show everything
+  function soloG(k){const only=Object.keys(layers).every(x=>layers[x]===(x===k));if(only){setAll();return;}Object.keys(layers).forEach(x=>layers[x]=(x===k));Object.keys(kF).forEach(x=>kF[x]=true);sync();}
+  function soloS(k){const only=Object.keys(stF).every(x=>stF[x]===(x===k));if(only){Object.keys(stF).forEach(x=>stF[x]=true);sync();return;}Object.keys(stF).forEach(x=>stF[x]=(x===k));sync();}
+  function soloK(k){Object.keys(layers).forEach(x=>layers[x]=true);Object.keys(stF).forEach(x=>stF[x]=true);Object.keys(kF).forEach(x=>kF[x]=(x===k));sync();}
+  lc.before(status);
+  const hint=document.createElement("span");hint.className="whint";hint.textContent="Show only:";lc.appendChild(hint);
+  allBtn.onclick=setAll;lc.appendChild(allBtn);
+  Object.keys(GL).forEach(k=>{const n=P.filter(p=>p.g===k).length;const b=document.createElement("button");b.className="chip";b.innerHTML=`${GL[k]} <span class="n">${n}</span>`;b.onclick=()=>soloG(k);chipG[k]=b;lc.appendChild(b);});
+  ["b","n","h"].forEach(k=>{const n=P.filter(p=>p.st===k).length;const b=document.createElement("button");b.className="chip";b.innerHTML=`<span class="dot ${k}"></span>${STANCE[k]} <span class="n">${n}</span>`;b.onclick=()=>soloS(k);chipS[k]=b;lc.appendChild(b);});
+  window.WMAP={g:soloG,s:soloS,k:soloK,all:setAll};
+  sync();
   draw();show(P[0],true);
 })();
 
@@ -4963,16 +5002,21 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
 
 // ---------- number summaries for Earth bases and Alliances
 (function(){
-  const box=(n,l,cls)=>`<div class="stat${cls?" "+cls:""}"><b>${n}</b><span>${l}</span></div>`;
+  const box=(n,l,cls,f)=>f?`<button type="button" class="stat${cls?" "+cls:""}" data-f="${f}"><b>${n}</b><span>${l}</span><em>Show on map →</em></button>`:`<div class="stat${cls?" "+cls:""}"><b>${n}</b><span>${l}</span></div>`;
+  const lbox=(n,l,href)=>`<a class="stat st" href="${href}"><b>${n}</b><span>${l}</span><em>Open the list ↓</em></a>`;
   const ST={b:"Friendly",n:"Neutral / mixed",h:"Hostile"};
   const e=document.getElementById("eStats");
   if(e&&typeof WORLD!=="undefined"){
     const pts=WORLD.pts, by=(i,v)=>pts.filter(p=>p[i]===v).length;
     const groups=[["race","Race bases"],["water","Underwater"],["shared","Shared facilities"],["ancient","Ancient sites, Arks & gates"],["human","Government & military"]];
-    e.innerHTML=`<div class="stat-row">${box(pts.length,"Places on the world map","big")}${groups.map(([k,l])=>box(by(5,k),l)).join("")}</div>
-    <div class="stat-row">${["b","n","h"].map(k=>box(by(3,k),`<i class="dot ${k}"></i>${ST[k]}`,"st")).join("")}${box(by(4,"u"),"Under the sea","st")}${box(by(4,"r"),"Regions (no exact spot)","st")}</div>
-    <div class="stat-row">${box(typeof RACE_BASES!=="undefined"?RACE_BASES.length:0,"Land &amp; underground bases (list)","st")}${box(typeof UNDERWATER!=="undefined"?UNDERWATER.length:0,"Underwater bases (list)","st")}${box(typeof CABAL_SITES!=="undefined"?CABAL_SITES.length:0,"Shared underground facilities (list)","st")}</div>`;
+    e.innerHTML=`<p class="stat-help">Tap any box to show only those places on the map. Tap “${pts.length} Places” to show everything again.</p><div class="stat-row">${box(pts.length,"Places on the world map","big","all")}${groups.map(([k,l])=>box(by(5,k),l,"","g:"+k)).join("")}</div>
+    <div class="stat-row">${["b","n","h"].map(k=>box(by(3,k),`<i class="dot ${k}"></i>${ST[k]}`,"st","s:"+k)).join("")}${box(by(4,"u"),"Under the sea (all kinds)","st","k:u")}${box(by(4,"r"),"Regions (no exact spot)","st","k:r")}</div>
+    <div class="stat-row">${lbox(typeof RACE_BASES!=="undefined"?RACE_BASES.length:0,"Land &amp; underground bases (list)","#e-lists")}${lbox(typeof UNDERWATER!=="undefined"?UNDERWATER.length:0,"Underwater bases (list)","#underwater")}${lbox(typeof CABAL_SITES!=="undefined"?CABAL_SITES.length:0,"Shared underground facilities (list)","#e-cabal")}</div>`;
   }
+  if(e)e.addEventListener("click",ev=>{const b=ev.target.closest("[data-f]");if(!b||!window.WMAP)return;const [t,k]=b.dataset.f.split(":");
+      if(t==="all")WMAP.all();else WMAP[t](k);
+      e.querySelectorAll("[data-f]").forEach(x=>x.classList.toggle("on",x===b&&t!=="all"));
+      const m=document.getElementById("wmap");if(m)m.scrollIntoView({behavior:"smooth",block:"center"});});
   const o=document.getElementById("oStats");
   if(o){
     const c=k=>ORGS.filter(x=>x.st===k).length;
