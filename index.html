@@ -857,6 +857,16 @@ body:not(.pg-map) footer.src{display:none!important}
 .gdet .race{border:0;padding:0;margin:0}
 .gdet .race h3{font-size:22px}
 .gdet .race p{font-size:15.5px;line-height:1.65;max-width:75ch}
+
+/* nav: always visible, one clear highlight */
+nav.mainnav{transform:none!important;opacity:1!important;pointer-events:auto!important}
+.mainnav a[data-sec]{box-shadow:none!important;outline:0}
+.mn-row a.on{box-shadow:0 0 0 3px #fff,0 0 0 6px #e0a43a,0 10px 22px -8px var(--c1)!important;transform:translateY(-1px);filter:saturate(1.15) brightness(1.08)}
+.mn-row a:not(.on){opacity:.86}
+.mn-row a:not(.on):hover{opacity:1}
+.mn-row{padding:6px 8px!important;scroll-padding-inline:40px}
+body:not(.pg-in) #top{padding-top:88px!important}@media (max-width:700px){body:not(.pg-in) #top{padding-top:78px!important}}
+#mappage{padding-top:32px}
 </style>
 
 <div class="wrap">
@@ -9295,9 +9305,14 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
   const links=[...nav.querySelectorAll("a[data-sec]")];
   const secs=links.map(a=>document.getElementById(a.dataset.sec)).filter(Boolean);
   function setOn(id){links.forEach(a=>{const on=a.dataset.sec===id;a.classList.toggle("on",on);if(on){a.setAttribute("aria-current","true");const r=a.parentElement;if(a.offsetLeft<r.scrollLeft||a.offsetLeft+a.offsetWidth>r.scrollLeft+r.clientWidth)r.scrollTo({left:a.offsetLeft-12,behavior:"smooth"});}else a.removeAttribute("aria-current");});}
-  function check(){const y=nav.getBoundingClientRect().bottom+90;let cur=null;if(document.body.classList.contains("pg-in"))cur=null;else secs.forEach(s=>{if(s.getBoundingClientRect().top<=y)cur=s.id;});if(!document.body.classList.contains("pg-in"))setOn(cur);
-    const cards=document.querySelector(".starthere");if(cards){const show=document.body.classList.contains("pg-in")||cards.getBoundingClientRect().bottom<0;nav.classList.toggle("show",show);nav.setAttribute("aria-hidden",show?"false":"true");nav.querySelectorAll("a").forEach(x=>x.tabIndex=show?0:-1);}
+  function check(){
+    nav.classList.add("show");nav.setAttribute("aria-hidden","false");nav.querySelectorAll("a").forEach(x=>x.tabIndex=0);
     const t=document.getElementById("totop");if(t)t.classList.toggle("show",window.scrollY>700);}
+  // keep the highlighted link in view inside the menu row
+  function reveal(){const a=nav.querySelector("a.on");const r=a&&a.parentElement;if(!a){r0().scrollTo({left:0});return;}
+    const L=a.offsetLeft-r.offsetLeft,R=L+a.offsetWidth;if(L<r.scrollLeft+8||R>r.scrollLeft+r.clientWidth-8)r.scrollTo({left:Math.max(0,L-(r.clientWidth-a.offsetWidth)/2),behavior:"smooth"});}
+  const r0=()=>nav.querySelector(".mn-row");
+  window.addEventListener("pagechange",()=>requestAnimationFrame(()=>requestAnimationFrame(reveal)));
   let raf=0;window.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;check();});},{passive:true});
   window.addEventListener("resize",check);check();
   // open a closed <details> when its link is used
