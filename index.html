@@ -867,6 +867,24 @@ nav.mainnav{transform:none!important;opacity:1!important;pointer-events:auto!imp
 .mn-row{padding:6px 8px!important;scroll-padding-inline:40px}
 body:not(.pg-in) #top{padding-top:88px!important}@media (max-width:700px){body:not(.pg-in) #top{padding-top:78px!important}}
 #mappage{padding-top:32px}
+
+/* ===== compact navigation: two rows on computers, a menu button on phones ===== */
+nav.mainnav{padding:8px 12px!important}
+.mn-bar{display:none}
+.mn-row{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:6px!important;overflow:visible!important;max-width:1400px;margin:0 auto;padding:2px!important}
+.mn-row a{min-height:38px!important;padding:0 12px!important;font-size:14px!important;border-radius:10px!important;gap:6px}
+.mn-row .mn-i{font-size:15px}
+.mn-row a.on{box-shadow:0 0 0 2px #fff,0 0 0 4px #e0a43a!important}
+body:not(.pg-in) #top{padding-top:calc(var(--navh,96px) + 8px)!important}
+@media (max-width:760px){
+ .mn-bar{display:flex;align-items:center;gap:8px}
+ .mn-home{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:20px}
+ .mn-cur{flex:1;min-width:0;font:700 16px/1.2 var(--f-ui,inherit);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .mn-tog{flex:none;height:44px;padding:0 16px;border-radius:12px;border:0;background:linear-gradient(135deg,#45223B,#7a3f62);color:#fff;font:700 15px/1 var(--f-ui,inherit);cursor:pointer}
+ .mn-row{display:none!important}
+ nav.mainnav.open .mn-row{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;margin-top:10px;max-height:calc(100vh - 90px);overflow-y:auto!important}
+ nav.mainnav.open .mn-row a{min-height:48px!important;font-size:15px!important;justify-content:flex-start}
+}
 </style>
 
 <div class="wrap">
@@ -890,7 +908,7 @@ body:not(.pg-in) #top{padding-top:88px!important}@media (max-width:700px){body:n
   <div class="tactions"><button type="button" id="tprint" class="tbtn">Print or save as PDF</button><button type="button" id="tcopy" class="tbtn">Copy a link to these results</button></div>
   <div id="tout"></div>
 </section>
-<nav class="mainnav" id="mainnav" aria-label="Sections"><div class="mn-row"><a href="#topic" data-sec="topic" style="--c1:#9B6230;--c2:#C2852D" aria-label="Search the whole site"><span class="mn-i" aria-hidden="true">🔎</span>Search</a><a href="#screen" data-sec="screen" style="--c1:#0C263E;--c2:#2A4E63"><span class="mn-i" aria-hidden="true">✦</span>Star map</a><a href="#sol" data-sec="sol" style="--c1:#9A3C2A;--c2:#C2852D"><span class="mn-i" aria-hidden="true">☉</span>Solar system</a><a href="#gallery" data-sec="gallery" style="--c1:#45223B;--c2:#7a3f62"><span class="mn-i" aria-hidden="true">◉</span>Races</a><a href="#ships" data-sec="ships" style="--c1:#1f3a4a;--c2:#3f7f8c"><span class="mn-i" aria-hidden="true">🛸</span>Ships</a><a href="#contact" data-sec="contact" style="--c1:#2D475A;--c2:#566A74"><span class="mn-i" aria-hidden="true">✉</span>Contact</a><a href="#earth" data-sec="earth" style="--c1:#9A3C2A;--c2:#CD371C"><span class="mn-i" aria-hidden="true">⌖</span>Earth bases</a><a href="#orgs" data-sec="orgs" style="--c1:#4A052D;--c2:#651A29"><span class="mn-i" aria-hidden="true">⚑</span>Alliances</a><a href="#ssp" data-sec="ssp" style="--c1:#16173A;--c2:#443449"><span class="mn-i" aria-hidden="true">🚀</span>Space programs</a><a href="#trap" data-sec="trap" style="--c1:#45223B;--c2:#C2852D"><span class="mn-i" aria-hidden="true">✧</span>The Light</a><a href="#aware" data-sec="aware" style="--c1:#2D475A;--c2:#566A74"><span class="mn-i" aria-hidden="true">◎</span>Awareness</a><a href="#starseed" data-sec="starseed" style="--c1:#3a2440;--c2:#8c6487"><span class="mn-i" aria-hidden="true">✶</span>Starseed</a><a href="#astral" data-sec="astral" style="--c1:#45223B;--c2:#9B6230"><span class="mn-i" aria-hidden="true">◉</span>Astral</a><a href="#mantras" data-sec="mantras" style="--c1:#2D475A;--c2:#9B6230"><span class="mn-i" aria-hidden="true">☼</span>Mantras</a><a href="#beyond" data-sec="beyond" style="--c1:#443449;--c2:#45223B"><span class="mn-i" aria-hidden="true">∞</span>Off the map</a><a href="#index" data-sec="index" style="--c1:#566A74;--c2:#697763"><span class="mn-i" aria-hidden="true">☰</span>Index</a></div></nav>
+<nav class="mainnav" id="mainnav" aria-label="Sections"><div class="mn-bar"><a class="mn-home" href="#home" aria-label="Home">⌂</a><span class="mn-cur" id="mnCur">Choose a section</span><button class="mn-tog" id="mnTog" aria-expanded="false" aria-controls="mnRow">☰ Sections</button></div><div class="mn-row" id="mnRow"><a href="#topic" data-sec="topic" style="--c1:#9B6230;--c2:#C2852D" aria-label="Search the whole site"><span class="mn-i" aria-hidden="true">🔎</span>Search</a><a href="#screen" data-sec="screen" style="--c1:#0C263E;--c2:#2A4E63"><span class="mn-i" aria-hidden="true">✦</span>Star map</a><a href="#sol" data-sec="sol" style="--c1:#9A3C2A;--c2:#C2852D"><span class="mn-i" aria-hidden="true">☉</span>Solar system</a><a href="#gallery" data-sec="gallery" style="--c1:#45223B;--c2:#7a3f62"><span class="mn-i" aria-hidden="true">◉</span>Races</a><a href="#ships" data-sec="ships" style="--c1:#1f3a4a;--c2:#3f7f8c"><span class="mn-i" aria-hidden="true">🛸</span>Ships</a><a href="#contact" data-sec="contact" style="--c1:#2D475A;--c2:#566A74"><span class="mn-i" aria-hidden="true">✉</span>Contact</a><a href="#earth" data-sec="earth" style="--c1:#9A3C2A;--c2:#CD371C"><span class="mn-i" aria-hidden="true">⌖</span>Earth bases</a><a href="#orgs" data-sec="orgs" style="--c1:#4A052D;--c2:#651A29"><span class="mn-i" aria-hidden="true">⚑</span>Alliances</a><a href="#ssp" data-sec="ssp" style="--c1:#16173A;--c2:#443449"><span class="mn-i" aria-hidden="true">🚀</span>Space programs</a><a href="#trap" data-sec="trap" style="--c1:#45223B;--c2:#C2852D"><span class="mn-i" aria-hidden="true">✧</span>The Light</a><a href="#aware" data-sec="aware" style="--c1:#2D475A;--c2:#566A74"><span class="mn-i" aria-hidden="true">◎</span>Awareness</a><a href="#starseed" data-sec="starseed" style="--c1:#3a2440;--c2:#8c6487"><span class="mn-i" aria-hidden="true">✶</span>Starseed</a><a href="#astral" data-sec="astral" style="--c1:#45223B;--c2:#9B6230"><span class="mn-i" aria-hidden="true">◉</span>Astral</a><a href="#mantras" data-sec="mantras" style="--c1:#2D475A;--c2:#9B6230"><span class="mn-i" aria-hidden="true">☼</span>Mantras</a><a href="#beyond" data-sec="beyond" style="--c1:#443449;--c2:#45223B"><span class="mn-i" aria-hidden="true">∞</span>Off the map</a><a href="#index" data-sec="index" style="--c1:#566A74;--c2:#697763"><span class="mn-i" aria-hidden="true">☰</span>Index</a></div></nav>
 <div id="mappage">
 <div class="controls">
   <div class="search">
@@ -9313,6 +9331,15 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
     const L=a.offsetLeft-r.offsetLeft,R=L+a.offsetWidth;if(L<r.scrollLeft+8||R>r.scrollLeft+r.clientWidth-8)r.scrollTo({left:Math.max(0,L-(r.clientWidth-a.offsetWidth)/2),behavior:"smooth"});}
   const r0=()=>nav.querySelector(".mn-row");
   window.addEventListener("pagechange",()=>requestAnimationFrame(()=>requestAnimationFrame(reveal)));
+
+  // compact menu: current page label, phone toggle, nav height variable
+  const tog=document.getElementById("mnTog"),cur=document.getElementById("mnCur");
+  function setH(){document.documentElement.style.setProperty("--navh",nav.offsetHeight+"px");}
+  function label(){const a=nav.querySelector(".mn-row a.on");if(cur)cur.textContent=a?a.textContent.trim():"Home";}
+  if(tog)tog.addEventListener("click",()=>{const o=nav.classList.toggle("open");tog.setAttribute("aria-expanded",o);tog.textContent=o?"✕ Close":"☰ Sections";});
+  nav.addEventListener("click",e=>{if(e.target.closest(".mn-row a,.mn-home")&&nav.classList.contains("open")){nav.classList.remove("open");tog.setAttribute("aria-expanded","false");tog.textContent="☰ Sections";}});
+  window.addEventListener("pagechange",()=>requestAnimationFrame(()=>{label();setH();}));
+  window.addEventListener("resize",setH);setH();label();
   let raf=0;window.addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;check();});},{passive:true});
   window.addEventListener("resize",check);check();
   // open a closed <details> when its link is used
