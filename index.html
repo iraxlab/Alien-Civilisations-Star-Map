@@ -963,6 +963,11 @@ body.pgt-founders{--ph1:#3b1530;--ph2:#8a3a5c}
  #founders .fx-tbl td:first-child{font-weight:700;font-size:16px;color:#2a1430;padding-top:2px}
  #founders .fx-tbl td:first-child::before{display:none}
 }
+
+/* Home button: glass style that blends into each banner */
+.ph-home{background:rgba(255,255,255,.12)!important;color:#fff!important;border:1px solid rgba(255,255,255,.32)!important;box-shadow:0 6px 18px -10px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.18)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);min-height:38px!important;padding:0 14px 0 12px!important;border-radius:999px!important;font-size:14px!important;font-weight:600!important;gap:6px;letter-spacing:.01em;transition:background .2s,border-color .2s,transform .2s}
+.ph-home:hover,.ph-home:focus-visible{background:rgba(255,255,255,.22)!important;border-color:rgba(255,255,255,.55)!important;transform:translateY(-1px)}
+.ph-home:focus-visible{outline:2px solid #fff;outline-offset:2px}
 </style>
 
 <div class="wrap">
@@ -10067,9 +10072,9 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
     const t=THEME[pg.id]||{ic:"✦",sub:"",g:"stars"};
     const glyph=`<svg class="ph-g g-${t.g}" viewBox="0 0 120 120" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">${G[t.g]||G.stars}</svg>`;
     const own=pg.querySelector(".tr-hero");
-    if(own){own.classList.add("has-ph");own.insertAdjacentHTML("afterbegin",`<a class="ph-home" href="#home">⌂ Home</a>${glyph}${glyph.replace('class="ph-g','class="ph-g ph-g2')}`);return;}
+    if(own){own.classList.add("has-ph");own.insertAdjacentHTML("afterbegin",`<a class="ph-home" href="#home"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Home</a>${glyph}${glyph.replace('class="ph-g','class="ph-g ph-g2')}`);return;}
     const b=document.createElement("div");b.className="pghero";
-    b.innerHTML=`<div class="ph-bg" aria-hidden="true"></div><a class="ph-home" href="#home">⌂ Home</a>${glyph}<div class="ph-tx"><span class="ph-ic" aria-hidden="true">${t.ic}</span><h2 class="ph-t">${esc(label(pg.id))}</h2>${t.sub?`<p class="ph-s">${esc(t.sub)}</p>`:""}</div>`;
+    b.innerHTML=`<div class="ph-bg" aria-hidden="true"></div><a class="ph-home" href="#home"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Home</a>${glyph}<div class="ph-tx"><span class="ph-ic" aria-hidden="true">${t.ic}</span><h2 class="ph-t">${esc(label(pg.id))}</h2>${t.sub?`<p class="ph-s">${esc(t.sub)}</p>`:""}</div>`;
     pg.insertBefore(b,pg.firstChild);
   });
   // floating "parts" button
@@ -10108,4 +10113,30 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(update);
 })();
 
 </script>
+<style>
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]) #founders{--fd-ink:#ece6f2;--fd-soft:#c4bad3;--fd-line:rgba(255,255,255,.12);--fd-card:#1a1730;--fd-acc:#f08aa6;--fd-acc2:#e0b665}
+:root:not([data-theme="light"]) #founders b,:root:not([data-theme="light"]) #founders .fx-fact b,:root:not([data-theme="light"]) #founders .fx-tbl td:first-child{color:#fff4e3}
+:root:not([data-theme="light"]) #founders .fx-lede{color:#f1ecf7}
+:root:not([data-theme="light"]) #founders .fx-claim{color:#d6cde3}
+:root:not([data-theme="light"]) #founders div.fx-box,:root:not([data-theme="light"]) #founders .fx-practice,:root:not([data-theme="light"]) #founders .fx-care,:root:not([data-theme="light"]) #founders .fx-gloss,:root:not([data-theme="light"]) #founders .fx-race{background:#211d3a}
+:root:not([data-theme="light"]) #founders .fx-feel,:root:not([data-theme="light"]) #founders p.fx-note{background:#2a2433}
+:root:not([data-theme="light"]) #founders th{background:#241f3d}
+:root:not([data-theme="light"]) #founders figure.fx-fig{background:#f6f1ea}
+:root:not([data-theme="light"]) #founders figure.fx-fig figcaption{color:#4a4360}
+:root:not([data-theme="light"]) #founders .fx-facts,:root:not([data-theme="light"]) #founders .fx-tl,:root:not([data-theme="light"]) #founders .fx-tbl tr{box-shadow:0 10px 30px -22px rgba(0,0,0,.7)}
+:root:not([data-theme="light"]) #founders .fx-ev .fx-dot{border-color:#1a1730}
+}
+:root[data-theme="dark"] #founders{--fd-ink:#ece6f2;--fd-soft:#c4bad3;--fd-line:rgba(255,255,255,.12);--fd-card:#1a1730;--fd-acc:#f08aa6;--fd-acc2:#e0b665}
+:root[data-theme="dark"] #founders b,:root[data-theme="dark"] #founders .fx-fact b,:root[data-theme="dark"] #founders .fx-tbl td:first-child{color:#fff4e3}
+:root[data-theme="dark"] #founders .fx-lede{color:#f1ecf7}
+:root[data-theme="dark"] #founders .fx-claim{color:#d6cde3}
+:root[data-theme="dark"] #founders div.fx-box,:root[data-theme="dark"] #founders .fx-practice,:root[data-theme="dark"] #founders .fx-care,:root[data-theme="dark"] #founders .fx-gloss,:root[data-theme="dark"] #founders .fx-race{background:#211d3a}
+:root[data-theme="dark"] #founders .fx-feel,:root[data-theme="dark"] #founders p.fx-note{background:#2a2433}
+:root[data-theme="dark"] #founders th{background:#241f3d}
+:root[data-theme="dark"] #founders figure.fx-fig{background:#f6f1ea}
+:root[data-theme="dark"] #founders figure.fx-fig figcaption{color:#4a4360}
+:root[data-theme="dark"] #founders .fx-facts,:root[data-theme="dark"] #founders .fx-tl,:root[data-theme="dark"] #founders .fx-tbl tr{box-shadow:0 10px 30px -22px rgba(0,0,0,.7)}
+:root[data-theme="dark"] #founders .fx-ev .fx-dot{border-color:#1a1730}
+</style>
 </body></html>
